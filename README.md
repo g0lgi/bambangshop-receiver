@@ -95,3 +95,11 @@ In the case of the `NOTIFICATIONS` vector, there are many more read operations (
 The reason for this difference is that Rust aims to prevent data races at compile time. Data races occur when two or more threads access the same memory location concurrently, and at least one of the accesses is a write. By preventing mutation of static variables, Rust eliminates a common source of data races. However, we can still mutate the content of a static variable indirectly by wrapping it in a thread-safe wrapper like Mutex or RwLock. The lazy_static crate is used to initialize these wrappers at runtime. This allows us to have “mutable” static variables in a sense, but in a way that is safe from data races.
 
 #### Reflection Subscriber-2
+**1. Have you explored things outside of the steps in the tutorial, for example: src/lib.rs? If not, explain why you did not do so. If yes, explain things that you have learned from those other parts of code.**\
+The lib.rs seems to be a file that sets up some fundamental parts of your application, including HTTP client configuration, application configuration, and error handling. So very crucial.
+
+**2. Since you have completed the tutorial by now and have tried to test your notification system by spawning multiple instances of Receiver, explain how Observer pattern eases you to plug in more subscribers. How about spawning more than one instance of Main app, will it still be easy enough to add to the system?**\
+The Observer pattern greatly simplifies the process of adding new subscribers. Each subscriber just needs to implement the required interface (or trait in Rust) and register itself with the publisher. The publisher doesn’t need to know any details about the subscribers, which makes the system highly extensible. If I spawn more than one instance of the Main app, it would still be relatively easy to add to the system as long as the new instances implement the required interface and register themselves with the existing subscribers.
+
+**3. Have you tried to make your own Tests, or enhance documentation on your Postman collection? If you have tried those features, tell us whether it is useful for your work (it can be your tutorial work or your Group Project).**
+Yes, Postman has been very useful for me as a way to verify responses and validate tests.
