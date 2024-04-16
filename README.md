@@ -85,5 +85,13 @@ This is the place for you to write reflections:
 ### Mandatory (Subscriber) Reflections
 
 #### Reflection Subscriber-1
+**In this tutorial, we used RwLock<> to synchronise the use of Vec of Notifications. Explain why it is necessary for this case, and explain why we do not use Mutex<> instead?**\
+- `RwLock` (Read-Write Lock) allows multiple threads to read the data in parallel but only one thread to write the data at a time. This is useful when you have a data structure that is read often but modified infrequently.
+- `Mutex` (Mutual Exclusion) allows only one thread to access the data at a time, whether for reading or writing.
+
+In the case of the `NOTIFICATIONS` vector, there are many more read operations (like listing all notifications) than write operations (like adding a notification), so using `RwLock` would provide better performance because it allows multiple read operations to proceed concurrently.
+
+**In this tutorial, we used lazy_static external library to define Vec and DashMap as a “static” variable. Compared to Java where we can mutate the content of a static variable via a static function, why did not Rust allow us to do so?**\
+The reason for this difference is that Rust aims to prevent data races at compile time. Data races occur when two or more threads access the same memory location concurrently, and at least one of the accesses is a write. By preventing mutation of static variables, Rust eliminates a common source of data races. However, we can still mutate the content of a static variable indirectly by wrapping it in a thread-safe wrapper like Mutex or RwLock. The lazy_static crate is used to initialize these wrappers at runtime. This allows us to have “mutable” static variables in a sense, but in a way that is safe from data races.
 
 #### Reflection Subscriber-2
